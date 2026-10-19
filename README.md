@@ -12,8 +12,7 @@ Requires Node 24+ (runs TypeScript directly, no build step).
 
     npm install
     npm test
-    export ANTHROPIC_API_KEY=...   # query parsing
-    export RENTCAST_API_KEY=...    # live listings (omit to use sample data)
+    cp .env.example .env           # then fill in the keys; npm start loads .env
     npm start -- "3 bed under 350k in Austin, TX"
 
 ## Data
