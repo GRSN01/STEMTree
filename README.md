@@ -12,9 +12,17 @@ Requires Node 24+ (runs TypeScript directly, no build step).
 
     npm install
     npm test
-    ANTHROPIC_API_KEY=... npm start -- "3 bed under 350k in Austin"
+    export ANTHROPIC_API_KEY=...   # query parsing
+    export RENTCAST_API_KEY=...    # live listings (omit to use sample data)
+    npm start -- "3 bed under 350k in Austin, TX"
+
+## Data
+
+Live listings come from [RentCast](https://developers.rentcast.io): one request per
+market (zip, or city plus state), cached 24h in `.cache/` because the free plan is
+small. All active listings in the market are fetched so they can serve as comps, then
+filtered locally. Without a key the app uses synthetic `data/sample-listings.json`.
 
 ## Status
 
-MVP. Uses `data/sample-listings.json` (synthetic). Next: a real listings provider
-(licensed API or MLS/IDX feed), a web UI, and a better valuation model.
+MVP. Next: a web UI and a better valuation model (RentCast also offers value estimates).

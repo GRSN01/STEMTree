@@ -22,6 +22,7 @@ export async function parseQuery(query: string): Promise<Filters> {
             minSqft: { type: "number" },
             city: { type: "string" },
             zip: { type: "string" },
+            state: { type: "string", description: "2-letter US state code" },
           },
         },
       },

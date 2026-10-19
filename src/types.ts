@@ -18,6 +18,8 @@ export interface Filters {
   minSqft?: number;
   city?: string;
   zip?: string;
+  /** 2-letter state code; needed to fetch a market from RentCast */
+  state?: string;
 }
 
 export interface ScoredListing extends Listing {
