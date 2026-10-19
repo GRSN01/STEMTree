@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>House Looker</title>
+<style>
+:root{--o50:#FFF4E5;--o100:#FFE0B2;--o400:#F59E0B;--o600:#D97706;--o800:#7C3F00;--ink:#2B2118;--mute:#6B5B4D;--line:#EADFD3;--bg:#FFFBF5;--card:#fff;--good:#2E7D32}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+header{background:var(--o400);color:var(--o800)}
+.bar{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.logo{font-weight:700;font-size:20px;display:flex;align-items:center;gap:8px}
+form.search{flex:1;min-width:240px;display:flex;gap:8px}
+input,select{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+form.search input{flex:1}
+button{font:inherit;font-weight:600;padding:9px 16px;border:0;border-radius:8px;background:var(--o800);color:#fff;cursor:pointer}
+button:hover{background:#5c2e00}
+:focus-visible{outline:3px solid var(--o800);outline-offset:2px}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+.filters label{display:flex;flex-direction:column;font-size:13px;color:var(--mute);gap:4px}
+.count{margin:0 0 12px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;list-style:none;padding:0;margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.pic{position:relative}
+.pic svg{display:block;width:100%;height:auto}
+.badge{position:absolute;top:8px;left:8px;background:var(--o800);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.badge.hot{background:var(--good)}
+.body{padding:12px 14px 14px}
+.tag{display:inline-block;margin:0 0 6px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--o100);color:var(--o800)}
+.tag.senior{background:#E3F2E8;color:#1B5E20}
+.price{font-size:22px;font-weight:700;color:var(--o600);margin:0}
+.facts{margin:2px 0;color:var(--ink)}
+.addr{margin:0;color:var(--mute);font-size:14px}
+.meter{margin-top:10px;font-size:12px;color:var(--mute)}
+.meter div{height:6px;background:var(--o100);border-radius:3px;margin-top:4px;overflow:hidden}
+.meter span{display:block;height:100%;background:var(--o400)}
+.note{color:var(--mute);font-size:13px;margin-top:20px}
+.empty{padding:40px;text-align:center;color:var(--mute)}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11l8-7 8 7v9H3z"/><circle cx="14" cy="14" r="3"/><path d="M16.2 16.2L19 19"/></svg>House Looker</div>
+  <form class="search" role="search" id="searchForm"><input id="q" aria-label="City" value="Austin, TX"><button>Search</button></form>
+</div></header>
+<main>
+  <div class="filters">
+    <label>Max price<select id="maxPrice"><option value="">Any</option><option>350000</option><option>400000</option><option selected>450000</option><option>500000</option></select></label>
+    <label>Min beds<select id="beds"><option value="">Any</option><option>2</option><option selected>3</option><option>4</option></select></label>
+    <label>Min baths<select id="baths"><option value="">Any</option><option>2</option><option>3</option></select></label>
+    <label>Neighborhood<select id="community"><option value="">All neighborhoods</option><option value="regular">Regular neighborhoods</option><option value="senior">Senior living (55+)</option></select></label>
+    <label>Sort by<select id="sort"><option value="deal">Best deal</option><option value="priceAsc">Price: low to high</option><option value="priceDesc">Price: high to low</option><option value="newest">Newest</option></select></label>
+  </div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <ul class="grid" id="grid"></ul>
+  <p class="note">Sample listings from the House Looker prototype. Pictures are drawings, not photos. Which homes count as senior living is a demo tag, not real data. Deal score compares price per sqft with similar homes.</p>
+</main>
+<script>
+const DEALS = __DEALS__;
+const SENIOR_IDS = new Set(["L1","L4","L7","L10"]);
+DEALS.forEach(d => { d.community = SENIOR_IDS.has(d.id) ? "senior" : "regular"; });
+const $ = id => document.getElementById(id);
+const palettes = [["#FAC775","#854F0B","#FAEEDA"],["#F5C4B3","#993C1D","#FAECE7"],["#EF9F27","#633806","#FAEEDA"],["#F0997B","#712B13","#FAECE7"]];
+function house(i){const [w,r,s]=palettes[i%palettes.length];
+  return `<svg viewBox="0 0 160 90" role="img" aria-label="Drawing of a house"><rect width="160" height="90" fill="${s}"/><circle cx="136" cy="18" r="9" fill="#F59E0B"/><rect y="72" width="160" height="18" fill="#97C459" opacity=".55"/><rect x="42" y="38" width="76" height="38" fill="${w}"/><polygon points="34,40 80,10 126,40" fill="${r}"/><rect x="72" y="52" width="16" height="24" fill="${r}"/><rect x="50" y="48" width="14" height="12" fill="#E6F1FB"/><rect x="96" y="48" width="14" height="12" fill="#E6F1FB"/></svg>`;}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function render(){
+  const mp=+$("maxPrice").value||Infinity, mb=+$("beds").value||0, mba=+$("baths").value||0;
+  const com=$("community").value;
+  let rows=DEALS.filter(d=>d.price<=mp&&d.beds>=mb&&d.baths>=mba&&(!com||d.community===com));
+  const s=$("sort").value;
+  rows.sort(s==="deal"?(a,b)=>b.dealScore-a.dealScore:s==="priceAsc"?(a,b)=>a.price-b.price:s==="priceDesc"?(a,b)=>b.price-a.price:(a,b)=>a.daysOnMarket-b.daysOnMarket);
+  $("count").textContent=`${rows.length} home${rows.length===1?"":"s"} in Austin, TX`;
+  $("grid").innerHTML=rows.length?rows.map((d,i)=>`<li class="card"><div class="pic">${house(i)}<span class="badge ${d.dealScore>=80?"hot":""}">Deal score ${d.dealScore}</span></div><div class="body"><p class="tag ${d.community}">${d.community==="senior"?"Senior living (55+)":"Regular neighborhood"}</p><p class="price">$${d.price.toLocaleString()}</p><p class="facts">${d.beds} bd · ${d.baths} ba · ${d.sqft.toLocaleString()} sqft</p><p class="addr">${esc(d.address)}, ${esc(d.city)} ${esc(d.zip)}</p><div class="meter">$${d.pricePerSqft}/sqft vs $${d.compMedianPricePerSqft} nearby · ${d.daysOnMarket} days listed${d.priceDrops?` · ${d.priceDrops} price drop${d.priceDrops>1?"s":""}`:""}<div><span style="width:${d.dealScore}%"></span></div></div></div></li>`).join(""):`<li class="empty">No homes match. Try raising the max price.</li>`;
+}
+["maxPrice","beds","baths","community","sort"].forEach(id=>$(id).addEventListener("change",render));
+$("searchForm").addEventListener("submit",e=>{e.preventDefault();render();});
+render();
+</script>
+</body>
+</html>
