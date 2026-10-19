@@ -23,7 +23,7 @@ const raw = {
   },
 };
 
-const tmpCache = () => new FileCache(mkdtempSync(join(tmpdir(), "stemtree-")));
+const tmpCache = () => new FileCache(mkdtempSync(join(tmpdir(), "house-looker-")));
 
 test("toListing maps fields and counts price drops", () => {
   const l = toListing(raw)!;

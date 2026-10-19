@@ -1,4 +1,4 @@
-# STEMTree
+# House Looker
 
 AI assistant that helps you find houses priced below their market.
 
