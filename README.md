@@ -25,3 +25,7 @@ filtered locally. Without a key the app uses synthetic `data/sample-listings.jso
 ## Status
 
 MVP. Next: a web UI and a better valuation model (RentCast also offers value estimates).
+
+## Frontend preview
+
+Open `frontend/index.html` in a browser to see the House Looker search page (sample data).
