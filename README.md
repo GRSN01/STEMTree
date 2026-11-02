@@ -26,6 +26,16 @@ filtered locally. Without a key the app uses synthetic `data/sample-listings.jso
 
 MVP. Next: a web UI and a better valuation model (RentCast also offers value estimates).
 
+## Install with BananaPeel
+
+The search page is also a [BananaPeel](https://www.npmjs.com/package/@blockblock2/bananapeel)
+app (sample data, opens in its own window):
+
+    bananapeel install GRSN01/STEMTree@bananapeel
+    bananapeel run house-looker
+
+On a Mac, `bananapeel dmg GRSN01/STEMTree@bananapeel` builds a drag-to-Applications disk image.
+
 ## Frontend preview
 
 Open `frontend/index.html` in a browser to see the House Looker search page (sample data).
