@@ -31,10 +31,10 @@ MVP. Next: a web UI and a better valuation model (RentCast also offers value est
 The search page is also a [BananaPeel](https://www.npmjs.com/package/@blockblock2/bananapeel)
 app (sample data, opens in its own window):
 
-    bananapeel install blockblock2/STEMTree@bananapeel
+    bananapeel install GRSN01/STEMTree@bananapeel
     bananapeel run house-looker
 
-On a Mac, `bananapeel dmg blockblock2/STEMTree@bananapeel` builds a drag-to-Applications disk image.
+On a Mac, `bananapeel dmg GRSN01/STEMTree@bananapeel` builds a drag-to-Applications disk image.
 
 ## Frontend preview
 
