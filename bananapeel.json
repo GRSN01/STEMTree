@@ -1,0 +1,11 @@
+{
+  "name": "house-looker",
+  "title": "House Looker",
+  "version": "0.1.0",
+  "description": "Find houses priced below their market — deal scores compare price per sqft with nearby homes.",
+  "main": "frontend/index.html",
+  "icon": "icon.png",
+  "width": 1180,
+  "height": 820,
+  "dmg": true
+}
